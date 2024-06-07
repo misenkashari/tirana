@@ -33,7 +33,7 @@ function App() {
     };
 
     fetch(
-      `http://api.aladhan.com/v1/timingsByCity?city=${location.city}&country=${location.country}&method=8`
+      `https://api.aladhan.com/v1/timingsByCity?city=${location.city}&country=${location.country}&method=8`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -102,10 +102,13 @@ function App() {
 
   const findNextPrayer = (prayerTimes) => {
     const now = new Date();
+    const farz = ["Sabahu", "Dreka", "Ikindia", "Akshami", "Jacia"];
+    let indexSabah = 0;
     for (const vakt of prayerTimes) {
-      if (vakt.time > now) return vakt;
+      if (vakt.title === "Sabahu") indexSabah = prayerTimes.indexOf(vakt);
+      if (farz.includes(vakt.title) && vakt.time > now) return vakt;
     }
-    return prayerTimes[0];
+    return prayerTimes[indexSabah];
   };
 
   return (
